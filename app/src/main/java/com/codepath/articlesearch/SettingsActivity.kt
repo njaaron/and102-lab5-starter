@@ -14,7 +14,7 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // Initialize SharedPreferences and the switch
-        sharedPreferences = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this)
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         cacheSwitch = findViewById(R.id.switch_cache)
 
         // Load and display the cached state

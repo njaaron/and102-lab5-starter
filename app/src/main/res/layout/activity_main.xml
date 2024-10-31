@@ -22,7 +22,13 @@
             android:id="@+id/switch_cache"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Enable Caching" />
+            android:text="Enable Caching"
+            android:clickable="true"
+            android:focusable="true"
+            android:enabled="true"
+            android:focusableInTouchMode="true"/>
+        
+
     </LinearLayout>
     <Button
         android:id="@+id/settingsButton"
