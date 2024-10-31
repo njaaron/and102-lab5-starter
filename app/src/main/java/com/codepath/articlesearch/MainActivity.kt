@@ -1,12 +1,19 @@
 package com.codepath.articlesearch
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.codepath.articlesearch.databinding.ActivityMainBinding
 import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
@@ -31,6 +38,8 @@ class MainActivity : AppCompatActivity() {
     private val articles = mutableListOf<DisplayArticle>()
     private lateinit var articlesRecyclerView: RecyclerView
     private lateinit var binding: ActivityMainBinding
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var connectivityReceiver: BroadcastReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +71,32 @@ class MainActivity : AppCompatActivity() {
             val dividerItemDecoration = DividerItemDecoration(this, it.orientation)
             articlesRecyclerView.addItemDecoration(dividerItemDecoration)
         }
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout)
+        swipeRefreshLayout.setOnRefreshListener {
+            fetchArticles()
+        }
+        connectivityReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                val isConnected = !intent.getBooleanExtra(
+                    ConnectivityManager.EXTRA_NO_CONNECTIVITY, false
+                )
+                if (isConnected) {
+                    fetchArticles()
+                    Toast.makeText(context, "You are back online", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, "You are offline", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+        registerReceiver(connectivityReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
 
+
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(connectivityReceiver)
+    }
+    private fun fetchArticles(){
         val client = AsyncHttpClient()
         client.get(ARTICLE_SEARCH_URL, object : JsonHttpResponseHandler() {
             override fun onFailure(
@@ -98,8 +132,7 @@ class MainActivity : AppCompatActivity() {
                     Log.e(TAG, "Exception: $e")
                 }
             }
-
         })
-
+        swipeRefreshLayout.isRefreshing = false
     }
 }
