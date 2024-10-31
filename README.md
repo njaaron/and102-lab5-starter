@@ -18,26 +18,26 @@ The following **required** functionality is completed:
   - The app should cache the latest articles fetched from the NYT API in a local SQLite database using Room.
   - If the user has fetched data recently, those articles should be available offline.
   - Ensure old cached data is properly replaced with new data upon successful network fetches.
-  - ![GIF showing database caching functionality](http://i.imgur.com/link/to/your/gif/file.gif) <!-- Replace this link with your actual image/GIF link -->
+  - <img src='Lab5Part1.gif'> <!-- Replace this link with your actual image/GIF link -->
 
 - [X] (2 pts) **If user turns on airplane mode and closes and reopens app, old data from the database should be loaded**
-  - ![GIF showing offline mode functionality](http://i.imgur.com/link/to/your/gif/file.gif) <!-- Replace this link with your actual image/GIF link -->
+  - <img src='Lab5Part1.gif'> <!-- Replace this link with your actual image/GIF link -->
 
 ### Stretch Features
 
 The following **stretch** functionality is implemented:
 
 - [X] (2 pts) **Add Swipe To Refresh to force a new network call to get new data**
-  - ![GIF showing Swipe to Refresh](http://i.imgur.com/link/to/your/gif/file.gif) <!-- Replace this link with your actual image/GIF link -->
+  - <img src='Lab5Part2.gif'> <!-- Replace this link with your actual image/GIF link -->
 
 - [X] (2 pts) **Add setting toggle for user to create preference for caching data or not (Using Shared Preferences)**
-  - ![GIF showing Shared Preferences for caching](http://i.imgur.com/link/to/your/gif/file.gif) <!-- Replace this link with your actual image/GIF link -->
+  - <img src='Lab5Part2.gif'> <!-- Replace this link with your actual image/GIF link -->
 
 - [ ] (+3 pts) **Implement a Search UI to filter current RecyclerView entries or fetch data from the search API with query**
   - ![GIF showing Search UI functionality](http://i.imgur.com/link/to/your/gif/file.gif) <!-- Replace this link with your actual image/GIF link -->
 
 - [X] (2 pts) **Listen to network connectivity changes and create a UI to let people know they are offline and automatically reload new data if connectivity returns**
-  - ![GIF showing network connectivity detection](http://i.imgur.com/link/to/your/gif/file.gif) <!-- Replace this link with your actual image/GIF link -->
+  - <img src='Lab5Part2.gif'> <!-- Replace this link with your actual image/GIF link -->
 
 ## Notes
 
