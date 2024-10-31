@@ -7,9 +7,11 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -66,6 +68,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        val settingsButton = findViewById<Button>(R.id.settingsButton)
+        settingsButton.setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
+        }
         articlesRecyclerView.adapter = articleAdapter
         articlesRecyclerView.layoutManager = LinearLayoutManager(this).also {
             val dividerItemDecoration = DividerItemDecoration(this, it.orientation)
@@ -96,7 +102,13 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         unregisterReceiver(connectivityReceiver)
     }
+    private fun shouldCacheData(): Boolean {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        return sharedPreferences.getBoolean("cache_enabled", true)
+    }
     private fun fetchArticles(){
+        val sharedPreferences = getSharedPreferences("user_preferences", Context.MODE_PRIVATE)
+        val isCachingEnabled = sharedPreferences.getBoolean("cache_data", true)
         val client = AsyncHttpClient()
         client.get(ARTICLE_SEARCH_URL, object : JsonHttpResponseHandler() {
             override fun onFailure(
